@@ -1,0 +1,42 @@
+int part(int *nums, int l_idx, int r_idx)
+{
+    int pivot = nums[l_idx];
+    int i = l_idx - 1;
+    int j = r_idx + 1;
+    while (true)
+    {
+        do
+        {
+            i++;
+        } while (nums[i] < pivot);
+        do
+        {
+            j--;
+        } while (nums[j] > pivot);
+        if (i >= j)
+            return j;
+        int aux = nums[i];
+        nums[i] = nums[j];
+        nums[j] = aux;
+    }
+}
+
+void quickSort(int *nums, int l_idx, int r_idx)
+{
+    if (l_idx < r_idx)
+    {
+        int pos = part(nums, l_idx, r_idx);
+        quickSort(nums, l_idx, pos);
+        quickSort(nums, pos + 1, r_idx);
+    }
+}
+int findKthLargest(int *nums, int numsSize, int k)
+{
+    quickSort(nums, 0, numsSize - 1);
+    int kLarger = 0;
+    for (int c = numsSize - 1, i = 0; i != k; i++, c--)
+    {
+        kLarger = nums[c];
+    }
+    return kLarger;
+}
